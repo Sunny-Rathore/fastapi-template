@@ -1,10 +1,30 @@
 from fastapi import FastAPI
 from app.exceptions.app_exception import AppException
-from app.modules.user.user_routes import router as user_router
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError,HTTPException
-from app.exceptions.handlers import http_exception_handler ,validation_exception_handler ,global_exception_handler,app_exception_handler
+
+from app.modules.user.user_routes import router as user_router
+from app.exceptions.handlers import (
+http_exception_handler,
+validation_exception_handler,
+global_exception_handler,
+app_exception_handler,
+)
 
 app = FastAPI()
+origins = [
+    "http://localhost:3000",
+    "https://yourfrontend.com",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials= True,
+    allow_methods =["*"],
+    allow_headers =["*"]         
+                   )
+
 app.include_router(user_router)
 
 
@@ -28,7 +48,7 @@ app.add_exception_handler(
 )
  
 @app.get('/')
-def home():
+def root():
     return {
         'message':"Api is running"
     }

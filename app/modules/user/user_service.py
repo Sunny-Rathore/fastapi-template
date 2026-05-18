@@ -8,8 +8,8 @@ class UserService():
 
     def create_user(self,user_data:UserCrate):
         if "@gmail.com" not in user_data.email:
-            raise AppException('only gmail account allowed')
-        return  self.repository.create_user(user_data.model_dump())
+            raise AppException('Only gmail accounts are allowed')
+        return self.repository.create_user(user_data)
 
     def get_all_users(self):
         return self.repository.get_all_users()    

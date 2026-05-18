@@ -1,6 +1,8 @@
+from typing import Any
+
 from fastapi.responses import JSONResponse
 
-def successResponse(data,message='success',status_code=200):
+def successResponse(data:Any,message :str='success',status_code :int=200):
     return JSONResponse(
         status_code=status_code,
         content={
@@ -10,9 +12,7 @@ def successResponse(data,message='success',status_code=200):
     }
     )
 
-
-
-def errorResponse(message='error',status_code=500):
+def errorResponse(message :str='error',status_code: int=500):
     return JSONResponse(
         status_code=status_code,
         content= {
