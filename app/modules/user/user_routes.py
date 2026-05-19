@@ -13,7 +13,7 @@ router = APIRouter()
 
 # CREATE
 @router.post('/api/user')
-async def create_user(user_data:UserCrate ,service :UserService = Depends(get_user_service)):
+async def create_user(user_data: UserCrate ,service :UserService = Depends(get_user_service)):
     try:
      data = await service.create(user_data)
      print(f"Route Return Data {data}")

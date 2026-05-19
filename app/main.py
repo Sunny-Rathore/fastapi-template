@@ -7,6 +7,7 @@ from fastapi.exceptions import RequestValidationError,HTTPException
 
 from app.core.database import client
 from app.modules.user.user_routes import router as user_router
+from app.modules.auth.auth_routes import router as auth_router
 from app.exceptions.handlers import (
 http_exception_handler,
 validation_exception_handler,
@@ -39,7 +40,7 @@ app.add_middleware(
                    )
 
 app.include_router(user_router)
-
+app.include_router(auth_router)
 
 app.add_exception_handler(
     RequestValidationError,
