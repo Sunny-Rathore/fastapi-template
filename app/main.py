@@ -1,8 +1,11 @@
+from pydoc import cli
+
 from fastapi import FastAPI
 from app.exceptions.app_exception import AppException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError,HTTPException
 
+from app.core.database import client
 from app.modules.user.user_routes import router as user_router
 from app.exceptions.handlers import (
 http_exception_handler,
@@ -12,6 +15,16 @@ app_exception_handler,
 )
 
 app = FastAPI()
+@app.on_event('startup')
+async def startup():
+    print('server started')
+    try:
+        await client.admin.command('ping')
+        print("MongoDB connected successfully")
+    except Exception as e :
+        print(f"MongoDB connection failed: {e}")
+            
+
 origins = [
     "http://localhost:3000",
     "https://yourfrontend.com",
