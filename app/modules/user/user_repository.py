@@ -16,7 +16,6 @@ class UserRepository:
     async def create(self,user_data : dict) -> dict :
         result = await  self.collection.insert_one(user_data)
         user = user_data.copy()
-        user['id'] = str(result.inserted_id)
         return user
       
     # FIND ALL USERS

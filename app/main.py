@@ -61,7 +61,7 @@ app.add_exception_handler(
     global_exception_handler
 )
  
-@app.get('/')
+@app.get('/',tags=['Health'])
 def root():
     return {
         'message':"Api is running"

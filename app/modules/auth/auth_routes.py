@@ -7,9 +7,12 @@ from app.modules.auth.auth_service import AuthService
 from app.modules.user.user_schema import UserCrate
 from app.utils.response_utils import successResponse
 
-router = APIRouter()
+router = APIRouter(
+    prefix='/api/auth',
+    tags=['Auth']
+)
 
-@router.post('/api/login')
+@router.post('/login')
 async def login(data: LoginRequest, service:AuthService = Depends(get_auth_service)):
     try:
      print(f"Login data : {data.email} {data.password}")
@@ -18,7 +21,7 @@ async def login(data: LoginRequest, service:AuthService = Depends(get_auth_servi
     except AppException as e:
         raise e
 
-@router.post('/api/register')
+@router.post('/register')
 async def register(data: UserCrate, service:AuthService = Depends(get_auth_service)):
     try:
      user = await service.register(data)

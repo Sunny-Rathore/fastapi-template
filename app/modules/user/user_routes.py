@@ -8,11 +8,14 @@ from app.modules.user.user_schema import UserCrate,UserUpdate
 from app.dependencies.services import get_user_service
 from app.utils.response_utils import (successResponse)
 
-router = APIRouter()
+router = APIRouter(
+  prefix='/api/user',
+  tags=['Users']
+)
  
 
 # CREATE
-@router.post('/api/user')
+@router.post('/')
 async def create_user(user_data: UserCrate ,service :UserService = Depends(get_user_service)):
     try:
      data = await service.create(user_data)
@@ -22,7 +25,7 @@ async def create_user(user_data: UserCrate ,service :UserService = Depends(get_u
      raise e
 
 # GET ALL
-@router.get('/api/user')
+@router.get('/')
 async def get_all_users(service :UserService = Depends(get_user_service)):
     try:
       data  = await service.find_all()
@@ -31,7 +34,7 @@ async def get_all_users(service :UserService = Depends(get_user_service)):
      raise e
 
 # GET BY ID
-@router.get('/api/user/{id}')
+@router.get('/{id}')
 async def get_user_by_id(id:str ,service :UserService = Depends(get_user_service)):
     try: 
       user = await service.find_by_id(id)
@@ -40,7 +43,7 @@ async def get_user_by_id(id:str ,service :UserService = Depends(get_user_service
      raise e
 
 # UPDATE
-@router.patch('/api/user/{id}')
+@router.patch('/{id}')
 async def update_user(id:str, user: UserUpdate ,service :UserService = Depends(get_user_service)):
     try: 
       updatedUser = await service.update(id,user)
@@ -49,7 +52,7 @@ async def update_user(id:str, user: UserUpdate ,service :UserService = Depends(g
      raise e
  
 # DELETE
-@router.delete('/api/user/{id}')
+@router.delete('/{id}')
 async def delete_user(id:str ,service : UserService = Depends(get_user_service)):
     try: 
       user = await service.delete(id)

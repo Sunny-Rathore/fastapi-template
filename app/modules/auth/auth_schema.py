@@ -5,7 +5,4 @@ from app.modules.user.user_schema import User
 class LoginRequest(BaseModel):
     email:str
     password:str
-    
-class LoginResponse(BaseModel):
-    # user:User
-    token:str    
+ 
