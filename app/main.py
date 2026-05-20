@@ -18,7 +18,7 @@ app_exception_handler,
 app = FastAPI()
 @app.on_event('startup')
 async def startup():
-    print('server started')
+    print("server started")
     try:
         await client.admin.command('ping')
         print("MongoDB connected successfully")
@@ -26,11 +26,13 @@ async def startup():
         print(f"MongoDB connection failed: {e}")
             
 
+# Allowed Origins
 origins = [
     "http://localhost:3000",
     "https://yourfrontend.com",
 ]
 
+# Cors Middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins = origins,
@@ -39,8 +41,21 @@ app.add_middleware(
     allow_headers =["*"]         
                    )
 
-app.include_router(user_router)
+# Check server health
+@app.get('/',tags=['Health'])
+def root():
+    return {
+        'message':"Api is running"
+    }
+
+# Api Routes
 app.include_router(auth_router)
+app.include_router(user_router)
+
+app.add_exception_handler(
+    Exception,
+    global_exception_handler
+)
 
 app.add_exception_handler(
     RequestValidationError,
@@ -56,13 +71,5 @@ app.add_exception_handler(
     AppException,
     app_exception_handler)
 
-app.add_exception_handler(
-    Exception,
-    global_exception_handler
-)
- 
-@app.get('/',tags=['Health'])
-def root():
-    return {
-        'message':"Api is running"
-    }
+
+
