@@ -1,7 +1,5 @@
-from typing import Any
 from fastapi import APIRouter, Depends
 
-from app.dependencies import services
 from app.dependencies.auth import get_current_user
 from app.exceptions.app_exception import AppException
 from app.modules.user.user_service import UserService

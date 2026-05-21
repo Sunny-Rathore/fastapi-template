@@ -1,0 +1,1 @@
+SQLModel is one of the newest and most widely used ORM (Object Relational Mapping) and SQL toolkits in Python. It provides everything you need to interact with relational databases, including schema definitions, queries, transactions, and advanced relationship handling.

@@ -5,4 +5,6 @@ import certifi
 client = AsyncIOMotorClient(settings.MONGO_URI,tlsCAFile=certifi.where())
 db = client[settings.DATABASE_NAME ]
 user = db['users']
+address = db['address']
+
  

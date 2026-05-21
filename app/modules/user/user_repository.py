@@ -1,12 +1,5 @@
-from typing import Any, Self
-from unittest import result
-
 from bson import ObjectId
-
-from app.modules.user.user_schema import User, UserCrate
 from motor.motor_asyncio import AsyncIOMotorCollection
-
-from app.modules.user.user_model import serialize_user, serialize_users
 
 class UserRepository:
     def __init__(self,collection:AsyncIOMotorCollection):
@@ -16,6 +9,7 @@ class UserRepository:
     async def create(self,user_data : dict) -> dict :
         result = await  self.collection.insert_one(user_data)
         user = user_data.copy()
+        user['id'] =result.inserted_id
         return user
       
     # FIND ALL USERS
@@ -43,9 +37,11 @@ class UserRepository:
         return user
     
     # DELETE USER
-    async def delete(self,id:str)-> str| None:
-        await self.collection.delete_one({'_id':ObjectId(id)})
-        return id
+    async def delete(self,id:str)-> dict|None:
+        result =  await self.collection.find_one_and_delete({'_id': ObjectId(id)})
+        if not result:
+           return None
+        return result
     
     # UPDATE USER
     async def update(self,id:str, data:dict)-> dict:

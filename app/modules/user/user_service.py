@@ -1,4 +1,4 @@
-import re
+ 
 
 from app.exceptions.app_exception import AppException
 from app.modules.user.user_model import serialize_user, serialize_users
@@ -35,9 +35,6 @@ class UserService():
     
     # UPDATE USER
     async def update(self,id:str,data:UserUpdate)-> dict:
-        user = await  self.repo.find_by_id(id)
-        if not user :
-          raise AppException('user not found',400)
         user = await self.repo.update(id ,data.model_dump())
         if not user :
           raise AppException('user not found',400)
@@ -45,8 +42,7 @@ class UserService():
     
     # DELETE USER
     async def delete(self,id:str)-> dict:
-        user = await  self.repo.find_by_id(id)
-        if not user :
+        deleted_user: dict | None = await self.repo.delete(id)
+        if not deleted_user:
           raise AppException('user not found',400)
-        await self.repo.delete(id)
-        return serialize_user(user) 
+        return serialize_user(deleted_user) 
