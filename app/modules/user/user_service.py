@@ -22,8 +22,8 @@ class UserService():
         return serialize_user(user)
     
     # FIND ALL USERS
-    async def find_all(self):
-      users= await self.repo.find_all() 
+    async def find_all(self,search:str ,page:int ,limit:int):
+      users= await self.repo.find_all(search ,page ,limit) 
       return serialize_users(users)     
     
     # FIND USER BY ID    

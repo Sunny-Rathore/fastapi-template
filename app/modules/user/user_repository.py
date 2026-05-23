@@ -7,27 +7,35 @@ class UserRepository:
      
     # CREATE USER 
     async def create(self,user_data : dict) -> dict :
-        result = await  self.collection.insert_one(user_data)
+        result = await self.collection.insert_one(user_data)
         user = user_data.copy()
         user['id'] =result.inserted_id
         return user
       
     # FIND ALL USERS
-    async def find_all(self)-> list[dict] :
-      users_cursor = self.collection.find()
-      users = await users_cursor.to_list(length=None)
-      return users
+    async def find_all(self,search:str , page:int, limit:int,
+        )-> list[dict] :
+        quey = {
+          '$or':[
+            {"name":{"$regex":search,"$options":'i'}},
+            {'email':{"$regex":search,'$options':'i'}}
+               
+          ]
+        }  
+        users_cursor = self.collection.find(quey).skip((page-1)*limit).limit(limit)
+        users = await users_cursor.to_list()
+        return users
     
     # FIND USER BY ID    
     async def find_by_id(self,id:str)-> dict | None:    
-       user = await self.collection.find_one({
+        user = await self.collection.find_one({
             '_id': ObjectId(id)
         })
        
-       if not user:
+        if not user:
            return None
        
-       return user
+        return user
     
     # FIND BY EMAIL
     async def find_by_email(self ,email:str)-> dict| None:

@@ -19,17 +19,26 @@ router = APIRouter(
 async def create_user(user_data: UserCrate ,service :UserService = Depends(get_user_service)):
     try:
      data = await service.create(user_data)
-     print(f"Route Return Data {data}")
      return successResponse(data,'user created!',201)
     except AppException as e:
      raise e
 
 # GET ALL
 @router.get('/')
-async def get_all_users(service :UserService = Depends(get_user_service)):
+async def get_all_users(
+  search: str  = '',
+  page: int  = 1,
+  limit : int = 10,
+  service :UserService = Depends(get_user_service)
+  ):
     try:
-      data  = await service.find_all()
-      return successResponse(data,'user list fetched!') 
+      data  = await service.find_all(search ,page ,limit)
+      response = {
+        'page': page,
+        'limit': limit,
+        'users': data
+      }
+      return successResponse(response,'user list fetched!') 
     except AppException as e:
      raise e
 

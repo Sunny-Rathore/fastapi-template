@@ -1,5 +1,5 @@
 from app.exceptions.app_exception import AppException
-from app.modules.address.address_model import serialize_address, serialize_address_list
+from app.modules.address.address_serialize import serialize_address, serialize_address_list
 from app.modules.address.address_repository import AddressRepository
 from app.modules.address.address_schema import AddressCreate, AddressUpdate
 from app.utils.response_utils import successResponse

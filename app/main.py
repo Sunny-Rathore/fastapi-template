@@ -9,6 +9,9 @@ from app.core.database import client
 from app.modules.user.user_routes import router as user_router
 from app.modules.auth.auth_routes import router as auth_router
 from app.modules.address.address_route import router as address_router
+from app.modules.category.category_routes import router as category_router
+from app.modules.product.product_route import router as product_router
+
 
 from app.exceptions.handlers import (
 http_exception_handler,
@@ -54,6 +57,8 @@ def root():
 app.include_router(auth_router)
 app.include_router(user_router)
 app.include_router(address_router)
+app.include_router(category_router)
+app.include_router(product_router)
 
 app.add_exception_handler(
     Exception,

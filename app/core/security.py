@@ -1,5 +1,3 @@
-from multiprocessing.managers import DictProxy
-
 from jose import jwt, JWTError
 
 from app.exceptions.app_exception import AppException

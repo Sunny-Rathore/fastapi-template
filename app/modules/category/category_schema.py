@@ -7,14 +7,14 @@ class CategoryCreate(BaseModel):
       slug:str
       parent_id: Optional[str] = None
       image: Optional[str]= None
-      is_active: bool = True
+      is_active: Optional[bool] = True
       
 class CategoryUpdate(BaseModel):
-      name:str
-      slug:str
+      name: Optional[str]= None
+      slug:Optional[str]=None
       parent_id: Optional[str] = None
       image: Optional[str]= None
-      is_active: bool = True      
+      is_active: Optional[bool] = True      
 
 
       

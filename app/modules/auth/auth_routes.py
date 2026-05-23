@@ -15,7 +15,6 @@ router = APIRouter(
 @router.post('/login')
 async def login(data: LoginRequest, service:AuthService = Depends(get_auth_service)):
     try:
-     print(f"Login data : {data.email} {data.password}")
      user = await service.login(data)
      return successResponse(user,'login success')
     except AppException as e:

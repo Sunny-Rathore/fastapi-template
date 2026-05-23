@@ -6,18 +6,11 @@ class CategoryRepository:
 
     # CREATE  
      async def create_category(self,data:dict)-> dict:
-        if data['parent_id']:
+        if data.get('parent_id'):
             data['parent_id'] = ObjectId(data['parent_id'])
         result = await self.collection.insert_one(data) 
         data['id'] = result.inserted_id
         return data  
-    
-    # FIND  BY ID
-     async def find_by_id(self,id:str)-> dict|None:
-        category = await self.collection.find_one({'_id':ObjectId(id)}) 
-        if not category:
-            return None  
-        return category 
     
     # FIND BY NAME
      async def find_by_name(self,name:str)-> dict|None:
@@ -42,12 +35,12 @@ class CategoryRepository:
      
      # Find All
      async def find_all(self)-> list[dict]:
-        cursor = self.collection.find() 
+        cursor = self.collection.find({'parent_id':None}) 
         category = await cursor.to_list(length=None)
         return category
      
      # FIND SUB-CATEGORY
      async def find_sub_categories(self,id:str)-> list[dict]:
-        cursor = self.collection.find({'parent_id':ObjectId(id)}) 
+        cursor = self.collection.find({'parent_id': ObjectId(id)}) 
         category = await cursor.to_list(length=None)
         return category

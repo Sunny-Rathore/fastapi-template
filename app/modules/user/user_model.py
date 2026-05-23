@@ -3,7 +3,6 @@ def serialize_user(user) -> dict:
         "id": str(user["_id"]),
         "email": user["email"],
         "name": user["name"],
-        "address": user["address"]
     }
 
 
