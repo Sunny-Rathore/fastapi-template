@@ -1,5 +1,3 @@
-from pydoc import cli
-
 from fastapi import FastAPI
 from app.exceptions.app_exception import AppException
 from fastapi.middleware.cors import CORSMiddleware
@@ -34,17 +32,16 @@ async def startup():
 # Allowed Origins
 origins = [
     "http://localhost:3000",
-    "https://yourfrontend.com",
-]
+    ]
 
 # Cors Middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins = origins,
     allow_credentials= True,
-    allow_methods =["*"],
-    allow_headers =["*"]         
-                   )
+    allow_methods = ["*"],
+    allow_headers = ["*"]         
+    )
 
 # Check server health
 @app.get('/',tags=['Health'])
